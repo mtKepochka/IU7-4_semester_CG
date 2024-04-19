@@ -17,5 +17,9 @@ typedef enum
 int draw_ellipse_library(request_t request);
 int draw_ellipse_canonical(request_t request, int draw_bool = 1);
 int draw_circle_canonical(request_t request, int draw_bool = 1);
+int parametric_ellipse(request_t request, int draw_bool = 1);
+int parametric_circle(request_t request, int draw_bool = 1);
+int middle_point_ellipse(request_t request, int draw_bool = 1);
+int middle_point_circle(request_t request, int draw_bool = 1);
 
 #endif // ALGOS_H

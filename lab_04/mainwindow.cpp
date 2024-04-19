@@ -75,9 +75,11 @@ void MainWindow::on_btn_draw_ellipse_clicked()
         draw_ellipse_canonical(request);
         break;
     case PARAMETR:
+        parametric_ellipse(request);
         //draw_line_brenzenhem_d(request, 0);
         break;
     case MIDDLE_POINT:
+        middle_point_ellipse(request);
         //draw_line_brenzenhem_i(request, 0);
         break;
     case BREZENHEM:
@@ -113,9 +115,11 @@ void MainWindow::on_btn_draw_circle_clicked()
         draw_circle_canonical(request);
         break;
     case PARAMETR:
+        parametric_circle(request);
         //draw_line_brenzenhem_d(request, 0);
         break;
     case MIDDLE_POINT:
+        middle_point_circle(request);
         //draw_line_brenzenhem_i(request, 0);
         break;
     case BREZENHEM:
@@ -159,9 +163,11 @@ void MainWindow::on_btn_drawspectre_ellipse_clicked()
             draw_ellipse_canonical(request);
             break;
         case PARAMETR:
+            parametric_ellipse(request);
             //draw_line_brenzenhem_d(request, 0);
             break;
         case MIDDLE_POINT:
+            middle_point_ellipse(request);
             //draw_line_brenzenhem_i(request, 0);
             break;
         case BREZENHEM:
@@ -208,9 +214,11 @@ void MainWindow::on_btn_drawspectre_circle_clicked()
             draw_circle_canonical(request);
             break;
         case PARAMETR:
+            parametric_circle(request);
             //draw_line_brenzenhem_d(request, 0);
             break;
         case MIDDLE_POINT:
+            middle_point_circle(request);
             //draw_line_brenzenhem_i(request, 0);
             break;
         case BREZENHEM:
