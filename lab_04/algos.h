@@ -21,5 +21,9 @@ int parametric_ellipse(request_t request, int draw_bool = 1);
 int parametric_circle(request_t request, int draw_bool = 1);
 int middle_point_ellipse(request_t request, int draw_bool = 1);
 int middle_point_circle(request_t request, int draw_bool = 1);
+int bresenham_ellipse(request_t request, int draw_bool = 1);
+int bresenham_circle(request_t request, int draw_bool = 1);
+long time_measurement_ellipse(request_t req, int (*alg)(request_t request, int draw_bool));
+long time_measurement_circle(request_t req, int (*alg)(request_t request, int draw_bool));
 
 #endif // ALGOS_H
