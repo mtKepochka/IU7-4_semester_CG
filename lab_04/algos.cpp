@@ -1,6 +1,5 @@
 #include "algos.h"
-#include <QDebug>
-#define ITER_COUNT_TIME 1000
+#define ITER_COUNT_TIME 10000
 
 int draw_point(point_t point, QGraphicsScene *scene, QColor color)
 {
@@ -54,22 +53,75 @@ int draw_ellipse_library(request_t request)
 
 int draw_circle_canonical(request_t request, int draw_bool)
 {
-    if (request.radius_x == 0)
-        return 0;
-    int radius_sqr = round(request.radius_x * request.radius_x);
-    int border = round(request.center.x + request.radius_x/sqrt(2));
-    int y;
-    for (int x = round(request.center.x); x <= border; x++)
+    int radius_sqr = request.radius_x * request.radius_x;
+
+    int border = round(request.center.x + request.radius_x / sqrt(2));
+
+    for (int x = request.center.x; x < border + 1; x++)
     {
-        y = request.center.y + sqrt(radius_sqr - (x - request.center.x) * (x - request.center.x));
+        double y = request.center.y + sqrt(radius_sqr - (x - request.center.x) * (x - request.center.x));
         if (draw_bool)
         {
-            point_t point = { (double)x, (double)y, request.color_line };
+            point_t point = { (double)(x), (double)(round(y)), request.color_line };
             draw_simetric_points(request.center, point, request.scene, 1);
         }
     }
+
     return 0;
 }
+
+// int draw_ellipse_canonical(request_t request, int draw_bool)
+// {
+//     double radius_a_sqr = request.radius_x * request.radius_x;
+//     double radius_b_sqr = request.radius_y * request.radius_y;
+
+//     int border_x = round(request.center.x + request.radius_x / sqrt(1 + radius_b_sqr / radius_a_sqr));
+//     int border_y = round(request.center.y + request.radius_y / sqrt(1 + radius_a_sqr / radius_b_sqr));
+
+//     for (int x = request.center.x; x < border_x + 1; x++)
+//     {
+//         double y = request.center.y + sqrt(radius_a_sqr * radius_b_sqr -
+//                                    (x - request.center.x) * (x - request.center.x) * radius_b_sqr) / (double) request.radius_x;
+
+//         if (draw_bool)
+//         {
+//             point_t point = { (double)x, (double)(round(y)), request.color_line };
+//             draw_simetric_points(request.center, point, request.scene, 0);
+//         }
+//     }
+
+//     for (int y = request.center.y; y < border_y + 1; y++)
+//     {
+//         double x = request.center.x + sqrt(radius_a_sqr * radius_b_sqr -
+//                                    (y - request.center.y) * (y - request.center.y) * radius_a_sqr) / (double) request.radius_y;
+
+//         if (draw_bool)
+//         {
+//             point_t point = { (double)(round(x)), (double)y, request.color_line };
+//             draw_simetric_points(request.center, point, request.scene, 0);
+//         }
+//     }
+
+//     return 0;
+// }
+// int draw_circle_canonical(request_t request, int draw_bool)
+// {
+//     if (request.radius_x == 0)
+//         return 0;
+//     int radius_sqr = round(request.radius_x * request.radius_x);
+//     int border = round(request.center.x + request.radius_x/sqrt(2));
+//     int y;
+//     for (int x = round(request.center.x); x <= border; x++)
+//     {
+//         y = request.center.y + sqrt(radius_sqr - (x - request.center.x) * (x - request.center.x));
+//         if (draw_bool)
+//         {
+//             point_t point = { (double)x, (double)y, request.color_line };
+//             draw_simetric_points(request.center, point, request.scene, 1);
+//         }
+//     }
+//     return 0;
+// }
 
 int draw_ellipse_canonical(request_t request, int draw_bool)
 {
@@ -270,7 +322,7 @@ int bresenham_circle(request_t request, int draw_bool)
     if (draw_bool)
     {
         point_t point = { x + request.center.x, y + request.center.y, request.color_line };
-        draw_simetric_points(request.center, point, request.scene, 0);
+        draw_simetric_points(request.center, point, request.scene, 1);
     }
 
     int delta = 2 * (1 - request.radius_x);
@@ -291,7 +343,7 @@ int bresenham_circle(request_t request, int draw_bool)
         if (draw_bool)
         {
             point_t point = { x + request.center.x, y + request.center.y, request.color_line };
-            draw_simetric_points(request.center, point, request.scene, 0);
+            draw_simetric_points(request.center, point, request.scene, 1);
         }
     }
 
@@ -360,43 +412,51 @@ int bresenham_ellipse(request_t request, int draw_bool)
     return 0;
 }
 
-static long delta_time(struct timespec mt1, struct timespec mt2)
+unsigned long long cur_ms_gettimeofday()
 {
-    return 1000000000 * (mt2.tv_sec - mt1.tv_sec) + (mt2.tv_nsec - mt1.tv_nsec);
+    struct timeval timeval;
+    gettimeofday(&timeval, NULL);
+
+    return (timeval.tv_sec * 1000000 + timeval.tv_usec);
 }
 
-long time_measurement_circle(request_t req, int (*alg)(request_t request, int draw_bool))
+unsigned long long delta_time(unsigned long long t1, unsigned long long t2)
 {
-    long time1;
+    return t2 - t1;
+}
+
+double time_measurement_circle(request_t req, int (*alg)(request_t request, int draw_bool))
+{
+    double time1;
     long sum1 = 0;
-    struct timespec tbegin, tend;
+    unsigned long long tbegin, tend;
 
     for (size_t i = 0; i < ITER_COUNT_TIME; i++)
     {
-        clock_gettime(CLOCK_REALTIME, &tbegin);
+        tbegin = cur_ms_gettimeofday();
         alg(req, 0);
-        clock_gettime(CLOCK_REALTIME, &tend);
+        tend = cur_ms_gettimeofday();
         sum1 += delta_time(tbegin, tend);
     }
-    time1 = sum1 / ITER_COUNT_TIME;
+    time1 = 1.0 * sum1 / ITER_COUNT_TIME;
 
     return time1;
 }
 
-long time_measurement_ellipse(request_t req, int (*alg)(request_t request, int draw_bool))
+double time_measurement_ellipse(request_t req, int (*alg)(request_t request, int draw_bool))
 {
-    long time1;
+    double time1;
     long sum1 = 0;
-    struct timespec tbegin, tend;
+    unsigned long long tbegin, tend;
 
     for (size_t i = 0; i < ITER_COUNT_TIME; i++)
     {
-        clock_gettime(CLOCK_REALTIME, &tbegin);
+        tbegin = cur_ms_gettimeofday();
         alg(req, 0);
-        clock_gettime(CLOCK_REALTIME, &tend);
+        tend = cur_ms_gettimeofday();
         sum1 += delta_time(tbegin, tend);
     }
-    time1 = sum1 / ITER_COUNT_TIME;
+    time1 = 1.0 * sum1 / ITER_COUNT_TIME;
 
     return time1;
 }

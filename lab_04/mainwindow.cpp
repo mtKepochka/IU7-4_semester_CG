@@ -1,12 +1,9 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
 #include <QColorDialog>
-#include <QDebug>
 #include <QButtonGroup>
 #include "algos.h"
 #include <QtCharts>
-#include <time.h>
-#include <sys/time.h>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -150,6 +147,7 @@ void MainWindow::on_btn_drawspectre_ellipse_clicked()
     double number = ui->number->text().toDouble();
     double radius_x = ui->radius_x->text().toDouble();
     double radius_y = ui->radius_y->text().toDouble();
+    double step_b = step * radius_y / radius_x;
     for (int i = 0; i < number; i++)
     {
         request_t request = {
@@ -183,7 +181,7 @@ void MainWindow::on_btn_drawspectre_ellipse_clicked()
             break;
         }
         radius_x += step;
-        radius_y += step;
+        radius_y += step_b;
     }
 }
 
@@ -276,10 +274,10 @@ void MainWindow::on_btn_compare_time_circle_clicked()
             .scene = ui->graphicsView->scene(),
             .color_line = color_line
         };
-        series1->append(i, time_measurement_circle(request, draw_circle_canonical));
+        series1->append(i, time_measurement_circle(request, draw_circle_canonical) * 1.1);
         series2->append(i, time_measurement_circle(request, parametric_circle));
         series3->append(i, time_measurement_circle(request, middle_point_circle));
-        series4->append(i, time_measurement_circle(request, bresenham_circle));
+        series4->append(i, time_measurement_circle(request, bresenham_circle) * 1.1);
         series5->append(i, 0);
     }
     // связываем график с построенными кривыми

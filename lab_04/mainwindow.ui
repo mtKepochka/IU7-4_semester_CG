@@ -349,7 +349,7 @@ QPushButton:pressed {
       <double>0.000000000000000</double>
      </property>
      <property name="maximum">
-      <double>1080.000000000000000</double>
+      <double>2000.000000000000000</double>
      </property>
     </widget>
     <widget class="QDoubleSpinBox" name="x_center">
@@ -361,8 +361,11 @@ QPushButton:pressed {
        <height>32</height>
       </rect>
      </property>
+     <property name="minimum">
+      <double>0.000000000000000</double>
+     </property>
      <property name="maximum">
-      <double>1400.000000000000000</double>
+      <double>2000.000000000000000</double>
      </property>
     </widget>
     <widget class="QLabel" name="label_4">
@@ -448,8 +451,11 @@ QPushButton:pressed {
        <height>31</height>
       </rect>
      </property>
+     <property name="minimum">
+      <double>10.000000000000000</double>
+     </property>
      <property name="maximum">
-      <double>1080.000000000000000</double>
+      <double>2000.000000000000000</double>
      </property>
     </widget>
     <widget class="QDoubleSpinBox" name="radius_x">
@@ -461,8 +467,11 @@ QPushButton:pressed {
        <height>32</height>
       </rect>
      </property>
+     <property name="minimum">
+      <double>10.000000000000000</double>
+     </property>
      <property name="maximum">
-      <double>1400.000000000000000</double>
+      <double>2000.000000000000000</double>
      </property>
     </widget>
     <widget class="QLabel" name="label_7">
@@ -581,7 +590,7 @@ QPushButton:pressed {
       <double>1.000000000000000</double>
      </property>
      <property name="maximum">
-      <double>540.000000000000000</double>
+      <double>10000.000000000000000</double>
      </property>
     </widget>
     <widget class="QDoubleSpinBox" name="step">
@@ -594,10 +603,10 @@ QPushButton:pressed {
       </rect>
      </property>
      <property name="minimum">
-      <double>1.000000000000000</double>
+      <double>10.000000000000000</double>
      </property>
      <property name="maximum">
-      <double>359.000000000000000</double>
+      <double>10000.000000000000000</double>
      </property>
     </widget>
     <widget class="QLabel" name="label_12">
@@ -780,8 +789,11 @@ QPushButton:pressed {
       <height>31</height>
      </rect>
     </property>
+    <property name="minimum">
+     <double>10.000000000000000</double>
+    </property>
     <property name="maximum">
-     <double>1080.000000000000000</double>
+     <double>2000.000000000000000</double>
     </property>
    </widget>
    <widget class="QPushButton" name="btn_draw_ellipse">
