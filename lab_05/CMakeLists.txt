@@ -38,6 +38,8 @@ else()
     else()
         add_executable(lab_05
             ${PROJECT_SOURCES}
+            mygraphicsscene.h
+            mygraphicsscene.cpp
         )
     endif()
 endif()
