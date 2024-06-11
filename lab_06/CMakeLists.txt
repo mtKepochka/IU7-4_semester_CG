@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 
-project(lab_05 VERSION 0.1 LANGUAGES CXX)
+project(lab_06 VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
@@ -17,42 +17,48 @@ set(PROJECT_SOURCES
         mainwindow.cpp
         mainwindow.h
         mainwindow.ui
+        mygraphicsscene.h mygraphicsscene.cpp
+        figure.h figure.cpp
+        point.h point.cpp
+        drawer.h drawer.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
-    qt_add_executable(lab_05
+    qt_add_executable(lab_06
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
+        algorithm.h
+        algorithm.cpp
     )
 # Define target properties for Android with Qt 6 as:
-#    set_property(TARGET lab_05 APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
+#    set_property(TARGET lab_06 APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
 #                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
 # For more information, see https://doc.qt.io/qt-6/qt-add-executable.html#target-creation
 else()
     if(ANDROID)
-        add_library(lab_05 SHARED
+        add_library(lab_06 SHARED
             ${PROJECT_SOURCES}
         )
 # Define properties for Android with Qt 5 after find_package() calls as:
 #    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
     else()
-        add_executable(lab_05
+        add_executable(lab_06
             ${PROJECT_SOURCES}
-            mygraphicsscene.h
-            mygraphicsscene.cpp
+            algorithm.cpp
+            algorithm.h
         )
     endif()
 endif()
 
-target_link_libraries(lab_05 PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+target_link_libraries(lab_06 PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an
 # explicit, fixed bundle identifier manually though.
 if(${QT_VERSION} VERSION_LESS 6.1.0)
-  set(BUNDLE_ID_OPTION MACOSX_BUNDLE_GUI_IDENTIFIER com.example.lab_05)
+  set(BUNDLE_ID_OPTION MACOSX_BUNDLE_GUI_IDENTIFIER com.example.lab_06)
 endif()
-set_target_properties(lab_05 PROPERTIES
+set_target_properties(lab_06 PROPERTIES
     ${BUNDLE_ID_OPTION}
     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
     MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
@@ -61,12 +67,12 @@ set_target_properties(lab_05 PROPERTIES
 )
 
 include(GNUInstallDirs)
-install(TARGETS lab_05
+install(TARGETS lab_06
     BUNDLE DESTINATION .
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
 
 if(QT_VERSION_MAJOR EQUAL 6)
-    qt_finalize_executable(lab_05)
+    qt_finalize_executable(lab_06)
 endif()
